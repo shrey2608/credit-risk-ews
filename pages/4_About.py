@@ -67,9 +67,9 @@ phases = """
 | Phase | Duration | Scope | Status |
 |-------|----------|-------|--------|
 | **Phase 1** | Mar 10 - Apr 24 | 10 firms, toy pipeline, Label A, pooled logit | ✅ Complete |
-| **Phase 2** | Apr 24 - May 5 | 60-80 firms, full pipeline, real data integration, ablation | 🚧 In Progress |
-| **Phase 3** | May - Early Jun | Robustness testing, threshold sensitivity, final model selection | ⏳ Upcoming |
-| **Phase 4** | Jun - Jul | Report writing, presentation, webpage, oral exam | ⏳ Upcoming |
+| **Phase 1** | Apr 15 - May 13 | 9 firms, toy pipeline, Label A, pooled logit | ✅ Complete |
+| **Phase 2** | May 13 - Jun 01 | 60-80 firms, full pipeline, real data integration, ablation | 🚧 In Progress |
+| **Phase 3** | Jun 01 - Jun 15| Robustness testing, threshold sensitivity, final model selection | ⏳ Upcoming |
 """
 st.markdown(phases)
 
