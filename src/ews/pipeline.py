@@ -62,7 +62,7 @@ def _warn(msg: str) -> None:
 
 def main() -> None:
     print("=" * 70)
-    print("CREDIT RISK EWS — PHASE 1 PROTOTYPE")
+    print("CREDIT RISK EWS -- PHASE 1 PROTOTYPE")
     print("=" * 70)
 
     # -- Loaders (tier-1: failures fatal) ------------------------------------
@@ -76,7 +76,8 @@ def main() -> None:
         prices.pivot(index="date", columns="ticker", values="adj_close")
         .resample("ME").last().index
     )
-    fundamentals = load_fundamentals(TICKERS, monthly_dates, source="placeholder")
+    # fundamentals = load_fundamentals(TICKERS, monthly_dates, source="placeholder")
+    fundamentals = load_fundamentals(TICKERS, monthly_dates, source="sec")
     _write_interim(fundamentals, "fundamentals", "placeholder")
 
     macros = load_macros(monthly_dates, source="synthetic")
@@ -88,8 +89,8 @@ def main() -> None:
     # -- Panel + split ------------------------------------------------------
     panel = assemble_panel(market, fundamentals, macros, labels)
     os.makedirs(PATHS.PROCESSED, exist_ok=True)
-    panel.to_csv(os.path.join(PATHS.PROCESSED, "panel_phase1.csv"), index=False)
-    print(f"\n  Panel saved to: data/processed/panel_phase1.csv")
+    panel.to_csv(os.path.join(PATHS.PROCESSED, "panel_phase2.csv"), index=False)
+    print(f"\n  Panel saved to: data/processed/panel_phase2.csv")
 
     train, val, test = time_split(panel)
 
@@ -141,13 +142,13 @@ def main() -> None:
     }
 
     for chart_fn, args, name in [
-        (plot_roc_pr,       (y_eval, preds_by_model, "phase1_roc_pr.png"),           "ROC/PR"),
+        (plot_roc_pr,       (y_eval, preds_by_model, "phase2_roc_pr.png"),           "ROC/PR"),
         (plot_calibration,  (y_eval, preds1[eval_split], "Pooled Logit",
-                             "phase1_calibration.png"),                                "Calibration"),
+                             "phase2_calibration.png"),                                "Calibration"),
         (plot_risk_deciles, (y_eval, preds1[eval_split], "Pooled Logit",
-                             "phase1_deciles.png"),                                    "Decile"),
+                             "phase2_deciles.png"),                                    "Decile"),
         (plot_firm_risk_trajectory,
-                            (panel, model1, "Pooled Logit", "phase1_trajectories.png"),
+                            (panel, model1, "Pooled Logit", "phase2_trajectories.png"),
                              "Trajectory"),
     ]:
         try:
@@ -168,12 +169,12 @@ def main() -> None:
 
     # -- Summary ------------------------------------------------------------
     print("\n" + "=" * 70)
-    print("PHASE 1 PROTOTYPE COMPLETE")
+    print("PHASE 2 EXPANSION (80 FIRMS) COMPLETE")
     print("=" * 70)
     print("\nArtifacts:")
-    print(f"  data/processed/panel_phase1.csv")
+    print(f"  data/processed/panel_phase2.csv")
     print(f"  data/interim/{{prices,market_features,fundamentals,macros,labels}}.csv")
-    print(f"  outputs/figures/phase1_{{roc_pr,calibration,deciles,trajectories}}.png")
+    print(f"  outputs/figures/phase2_{{roc_pr,calibration,deciles,trajectories}}.png")
 
 
 if __name__ == "__main__":
